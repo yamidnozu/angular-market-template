@@ -6,7 +6,7 @@ import {
     OwnershipService,
     StatisticService,
 } from '@openchannel/angular-common-services';
-import { Observable, of, Subject, throwError } from 'rxjs';
+import { Observable, of, Subject, throwError, finalize } from 'rxjs';
 import { catchError, mergeMap, takeUntil, tap } from 'rxjs/operators';
 import { LoadingBarState } from '@ngx-loading-bar/core/loading-bar.state';
 import { LoadingBarService } from '@ngx-loading-bar/core';
@@ -228,7 +228,7 @@ export class ButtonActionComponent implements OnInit, OnDestroy {
                                   return throwError(error);
                               },
                     ),
-                    tap(() => {
+                    finalize(() => {
                         this.inProcess = false;
                         if (this.buttonAction?.showToaster?.successMessage) {
                             this.toasterService.success(this.buttonAction?.showToaster?.successMessage);
